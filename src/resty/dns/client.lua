@@ -149,6 +149,10 @@ local cacheinsert = function(entry, qname, qtype)
 
     else
       -- empty or a 'name error' (3)
+      if (cachelookup(qname, qtype) or empty)[1] then
+        -- we still have a stale record with data, so we're not replacing that
+        return
+      end
       ttl = emptyTtl
       key = qtype..":"..qname
     end
